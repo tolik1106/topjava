@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserMealsUtil {
@@ -23,6 +21,7 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
         getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        getFilteredWithExceedNoStream(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
 //        .toLocalDate();
 //        .toLocalTime();
     }
@@ -47,5 +46,26 @@ public class UserMealsUtil {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static List<UserMealWithExceed> getFilteredWithExceedNoStream(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        List<UserMealWithExceed> userMealWithExceeds = new ArrayList<>();
+        Map<LocalDate, Integer> sumCaloriesPerDayMap = new HashMap<>();
+        for (UserMeal userMeal : mealList) {
+            LocalDate date = userMeal.getDateTime().toLocalDate();
+            Integer calories = sumCaloriesPerDayMap.getOrDefault(date, userMeal.getCalories());
+            sumCaloriesPerDayMap.merge(date, calories, (oldValue, newValue) -> oldValue + newValue);
+        }
+
+        for (UserMeal userMeal : mealList) {
+            LocalTime localTime = userMeal.getDateTime().toLocalTime();
+            if (TimeUtil.isBetween(localTime, startTime, endTime)) {
+                userMealWithExceeds.add(new UserMealWithExceed(userMeal.getDateTime(),
+                                                userMeal.getDescription(),
+                                                userMeal.getCalories(),
+                                                sumCaloriesPerDayMap.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay));
+            }
+        }
+        return userMealWithExceeds;
     }
 }
