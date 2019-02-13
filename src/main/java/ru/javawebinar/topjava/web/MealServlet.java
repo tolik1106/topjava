@@ -24,8 +24,10 @@ public class MealServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
     private static final String INSERT_OR_EDIT = "/editMeal.jsp";
-    private static final String LIST_MEAL = "/meals.jsp";
+    private static final String MEAL_SERVLET = "meals";
+    private static final String MEALS_JSP = "/meals.jsp";
     private static final int CALORIES_PER_DAY = 2000;
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     private CrudDAO<Meal, Integer> dao = new SimpleMealDAO();
 
@@ -41,15 +43,16 @@ public class MealServlet extends HttpServlet {
         if (action.equalsIgnoreCase("delete")) {
             int id = Integer.parseInt(request.getParameter("mealToId"));
             dao.delete(id);
-            forward = LIST_MEAL;
-            request.setAttribute("mealToList", getMealToListFromMealCollection(dao.getAll()));
+            forward = MEAL_SERVLET;
+            response.sendRedirect(forward);
+            return;
         } else if (action.equalsIgnoreCase("edit")) {
             forward = INSERT_OR_EDIT;
             int id = Integer.parseInt(request.getParameter("mealToId"));
             Meal meal = dao.read(id);
             request.setAttribute("mealTo", meal);
         } else if (action.equalsIgnoreCase("mealList")) {
-            forward = LIST_MEAL;
+            forward = MEALS_JSP;
             request.setAttribute("mealToList", getMealToListFromMealCollection(dao.getAll()));
         } else {
             forward = INSERT_OR_EDIT;
@@ -63,7 +66,6 @@ public class MealServlet extends HttpServlet {
 
         Meal meal = new Meal();
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime localDateTime = LocalDateTime.parse(req.getParameter("dateTime"), dateTimeFormatter);
         meal.setDateTime(localDateTime);
         meal.setDescription(req.getParameter("description"));
@@ -75,8 +77,7 @@ public class MealServlet extends HttpServlet {
             meal.setId(Integer.parseInt(id));
             dao.update(meal);
         }
-        req.setAttribute("mealToList",getMealToListFromMealCollection(dao.getAll()));
-        req.getRequestDispatcher(LIST_MEAL).forward(req, resp);
+        resp.sendRedirect(MEAL_SERVLET);
     }
 
     private List<MealTo> getMealToListFromMealCollection(Collection<Meal> mealCollection) {

@@ -11,12 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimpleMealDAO implements CrudDAO<Meal, Integer> {
 
-    private AtomicInteger key;
-    private Map<Integer, Meal> mealMap;
-
-    public SimpleMealDAO() {
-        key = new AtomicInteger(7);
-        mealMap = new ConcurrentHashMap<>();
+    private static final AtomicInteger key = new AtomicInteger(7);
+    private static final Map<Integer, Meal> mealMap = new ConcurrentHashMap<>();
+    static {
         for (Meal meal : MealsUtil.getMeals()) {
             mealMap.put(meal.getId(), meal);
         }
@@ -42,7 +39,6 @@ public class SimpleMealDAO implements CrudDAO<Meal, Integer> {
     @Override
     public void delete(Integer id) {
         mealMap.remove(id);
-
     }
 
     @Override
