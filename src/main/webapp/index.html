@@ -1,11 +1,54 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+        .login_form {
+            width: 200px;
+            margin: 20px auto;
+            padding: 20px;
+
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .select {
+            width: 60%;
+            height: 35px;
+
+            background-color: #fff;
+
+            position: relative;
+        }
+
+        .button-login {
+            margin-left: 10px;
+            width: 30%;
+            height: 35px;
+
+            background-color: darkgreen;
+            position: relative;
+        }
+
+    </style>
     <title>Java Enterprise (Topjava)</title>
 </head>
 <body>
 <h3>Проект <a href="https://github.com/JavaWebinar/topjava" target="_blank">Java Enterprise (Topjava)</a></h3>
 <hr>
+
+<form class="login_form" action="users" method="post">
+    <select class="select" name="userId" id="userId">
+        <option value="1">User 1</option>
+        <option value="2">User 2</option>
+    </select>
+    <input class="button-login" type="submit" value="Login">
+</form>
+
 <ul>
     <li><a href="users">Users</a></li>
     <li><a href="meals">Meals</a></li>

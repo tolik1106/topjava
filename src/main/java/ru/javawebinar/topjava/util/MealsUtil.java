@@ -39,13 +39,8 @@ public class MealsUtil {
     public static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int caloriesPerDay, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         return getFilteredWithExcess(meals,
                 caloriesPerDay,
-                meal-> DateTimeUtil.isBetween(
-                        meal.getDate(),
-                        (startDate != null) ? startDate : LocalDate.MIN,
-                        (endDate != null) ? endDate : LocalDate.MAX)
-                        && DateTimeUtil.isBetween(meal.getTime(),
-                        (startTime != null) ? startTime : LocalTime.MIN,
-                        (endTime != null) ? endTime : LocalTime.MAX));
+                meal-> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate)
+                        && DateTimeUtil.isBetween(meal.getTime(), startTime, endTime));
     }
 
     private static List<MealTo> getFilteredWithExcess(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {

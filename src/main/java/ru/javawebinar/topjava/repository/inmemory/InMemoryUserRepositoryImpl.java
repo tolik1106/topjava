@@ -19,8 +19,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     {
         Arrays.asList(
                 new User(null, "Tolik1106", "tolik1106@i.ua", "0000", Role.ROLE_ADMIN),
-                new User(null, "Andrey", "andrey@i.ua", "1111", Role.ROLE_USER),
-                new User(null, "Marina", "marina@i.ua", "2222", Role.ROLE_USER)
+                new User(null, "Andrey", "andrey@i.ua", "1111", Role.ROLE_USER)
         ).forEach(this::save);
     }
 
