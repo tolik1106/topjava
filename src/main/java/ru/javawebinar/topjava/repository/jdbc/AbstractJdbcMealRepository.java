@@ -83,5 +83,5 @@ public abstract class AbstractJdbcMealRepository implements MealRepository {
                 ROW_MAPPER, userId, getConvertedDateTime(startDate), getConvertedDateTime(endDate));
     }
 
-    protected abstract Object getConvertedDateTime(LocalDateTime dateTime);
+    protected abstract <T> T getConvertedDateTime(LocalDateTime dateTime);
 }

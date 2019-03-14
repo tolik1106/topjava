@@ -17,7 +17,7 @@ public class PostgresJdbcMealRepositoryImpl extends AbstractJdbcMealRepository {
     }
 
     @Override
-    protected Object getConvertedDateTime(LocalDateTime dateTime) {
+    protected LocalDateTime getConvertedDateTime(LocalDateTime dateTime) {
         return dateTime;
     }
 }

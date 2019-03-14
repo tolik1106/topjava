@@ -20,7 +20,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 public class JdbcMealServiceTest extends AbstractServiceTest {
 
     @Autowired
-    private MealService service;
+    protected MealService service;
 
     @Autowired
     private CacheManager cacheManager;

@@ -15,6 +15,12 @@ public interface MealRepository {
     // null if meal do not belong to userId
     Meal get(int id, int userId);
 
+    // throws UnsupportedOperationException
+    // use only in DataJpaMealRepositoryImpl
+    default Meal getWithUser(int id, int userId) {
+        throw new UnsupportedOperationException();
+    }
+
     // ORDERED dateTime desc
     List<Meal> getAll(int userId);
 
