@@ -8,12 +8,4 @@ import ru.javawebinar.topjava.service.AbstractMealServiceTest;
 import static ru.javawebinar.topjava.Profiles.JDBC;
 
 @ActiveProfiles(JDBC)
-public class JdbcMealServiceTest extends AbstractMealServiceTest {
-
-    @Test
-    @Override
-    @Ignore
-    public void testValidation() throws Exception {
-        super.testValidation();
-    }
-}
+public class JdbcMealServiceTest extends AbstractMealServiceTest {}
