@@ -104,14 +104,14 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     private static final class UserWithRolesExtractor implements ResultSetExtractor<List<User>> {
         @Override
         public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
-            Map<Integer, User> map = new HashMap<>();
+            List<User> users = new ArrayList<>();
             User user = null;
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
-                user = map.get(id);
+                user = (users.size() == 0) ? null : users.get(users.size() - 1);
 
-                if (user == null) {
+                if (user == null || !user.getId().equals(id)) {
                     user = new User();
                     user.setId(id);
                     user.setName(rs.getString("name"));
@@ -121,15 +121,13 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                     user.setEnabled(rs.getBoolean("enabled"));
                     user.setCaloriesPerDay(rs.getInt("calories_per_day"));
                     user.setRoles(new HashSet<Role>());
-                    map.put(id, user);
+                    users.add(user);
                 }
                 String role = rs.getString("role");
                 if (role != null) {
                     user.getRoles().add(Role.valueOf(role));
                 }
             }
-            List<User> users = new ArrayList<>(map.values());
-            users.sort(Comparator.comparing(User::getName).thenComparing(User::getEmail));
             return users;
         }
     }
