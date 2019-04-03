@@ -26,7 +26,7 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = MealRestController.REST_URL + '/';
 
-    private static final String GET_BETWEEN_SUFFICS = "between?startDate=2015-05-30T12:00&endDate=2015-05-31T21:00";
+    private static final String GET_BETWEEN_SUFFICS = "between?startDate=2015-05-30&endDate=2015-05-31&startTime=12:00&endTime=21:00";
 
     @Test
     void testGet() throws Exception {
