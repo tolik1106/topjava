@@ -17,9 +17,9 @@
                 <h3 class="text-center pt-2 text-success"><spring:message code="meal.title"/></h3>
             </div>
         </div>
-    <form method="post" action="meals/filter">
-        <div class="row text-secondary bg-light">
 
+        <form id="filterForm">
+            <div class="row text-secondary bg-light">
                 <div class="form-group col-sm-3">
                     <label><spring:message code="meal.startDate"/>:</label>
                     <input class="form-control" type="date" name="startDate" value="${param.startDate}">
@@ -36,13 +36,17 @@
                     <label><spring:message code="meal.endTime"/>:</label>
                     <input class="form-control" type="time" name="endTime" value="${param.endTime}">
                 </div>
-        </div>
+            </div>
+        </form>
+
         <div class="row mt-2">
             <div class="col text-right">
-                <button class="btn btn-info btn-sm" type="submit"><spring:message code="meal.filter"/></button>
+                <button id="drop" class="btn btn-danger btn-sm" type="submit" onclick="dropFilter()"><spring:message
+                        code="meal.resetFilter"/></button>
+                <button id="filter" class="btn btn-info btn-sm" type="submit" onclick="filter()"><spring:message
+                        code="meal.filter"/></button>
             </div>
         </div>
-    </form>
     </div>
     <hr>
     <button class="btn btn-primary btn-sm" onclick="add()">
@@ -96,7 +100,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="col-form-label"><spring:message code="meal.description"/></label>
+                        <label for="description" class="col-form-label"><spring:message
+                                code="meal.description"/></label>
                         <input type="text" class="form-control" id="description" name="description"
                                placeholder="<spring:message code="meal.description"/>" required>
                     </div>

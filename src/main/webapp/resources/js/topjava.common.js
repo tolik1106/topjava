@@ -1,4 +1,5 @@
 let context, form;
+var startDate, endDate, startTime, endTime;
 
 function makeEditable(ctx) {
     context = ctx;
@@ -27,7 +28,11 @@ function deleteRow(id) {
         url: context.ajaxUrl + id,
         type: "DELETE"
     }).done(function () {
-        updateTable();
+        if (context.ajaxUrl.includes("users")) {
+            updateTable();
+        } else {
+            updateWithFilter();
+        }
         successNoty("Deleted");
     });
 }
@@ -38,6 +43,8 @@ function updateTable() {
     });
 }
 
+
+
 function save() {
     $.ajax({
         type: "POST",
@@ -45,7 +52,11 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        if (context.ajaxUrl.includes("users")) {
+            updateTable();
+        } else {
+            updateWithFilter();
+        }
         successNoty("Saved");
     });
 }

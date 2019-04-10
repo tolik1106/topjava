@@ -30,11 +30,15 @@ public class AdminUIController extends AbstractUserController {
     public void createOrUpdate(@RequestParam("id") Integer id,
                                @RequestParam("name") String name,
                                @RequestParam("email") String email,
-                               @RequestParam("password") String password) {
+                               @RequestParam("password") String password,
+                               @RequestParam(required = false) Boolean action) {
 
         User user = new User(id, name, email, password, Role.ROLE_USER);
         if (user.isNew()) {
             super.create(user);
+        } else if (action != null){
+            user.setEnabled(action);
+            super.update(user, id);
         }
     }
 }

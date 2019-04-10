@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -58,11 +60,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
+        if (StringUtils.isEmpty(user.getPassword())) {
+            updateActive(user.getId(), user.isEnabled());
+            return;
+        }
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
     @Override
     public User getWithMeals(int id) {
         return checkNotFoundWithId(repository.getWithMeals(id), id);
+    }
+
+    @Transactional
+    public void updateActive(Integer userId, boolean active) {
+        Assert.notNull(userId, "User id must not be null");
+        User user = checkNotFound(repository.get(userId), "user id=" + userId);
+        user.setEnabled(active);
+        User saved = repository.save(user);
+        return;
     }
 }
