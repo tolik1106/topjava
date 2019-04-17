@@ -1,5 +1,7 @@
 let context, form;
 
+
+
 function makeEditable(ctx) {
     context = ctx;
     form = $('#detailsForm');
@@ -44,6 +46,7 @@ function updateTableByData(data) {
 }
 
 function save() {
+    debugger;
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
@@ -94,3 +97,4 @@ function renderDeleteBtn(data, type, row) {
         return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-remove'></span></a>";
     }
 }
+
