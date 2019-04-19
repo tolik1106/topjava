@@ -63,3 +63,26 @@ $(function () {
         updateTable: updateFilteredTable
     });
 });
+
+$(function() {
+    $('.datepicker').datetimepicker({
+        timepicker: false,
+        format: "Y-m-d",
+        closeOnDateSelect:true
+    });
+});
+
+$(function() {
+    $('.timepicker').datetimepicker({
+        datepicker: false,
+        format: "H:i",
+        closeOnDateSelect:true
+    });
+});
+
+$(function() {
+    $('.datetimepicker').datetimepicker({
+        format: "Y-m-d H:i",
+        closeOnDateSelect:true
+    });
+});
