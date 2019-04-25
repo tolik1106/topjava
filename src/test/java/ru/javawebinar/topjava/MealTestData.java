@@ -35,6 +35,10 @@ public class MealTestData {
         return new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "", 5);
     }
 
+    public static Meal getCreatedWithExistsDate() {
+        return new Meal(null, of(2015, Month.JUNE, 1, 14, 0), "Созданный ужин", 300);
+    }
+
     public static Meal getUpdatedInvalid() {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "", 5001);
     }

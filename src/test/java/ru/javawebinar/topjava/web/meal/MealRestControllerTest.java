@@ -84,11 +84,24 @@ class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdateInvalid() throws Exception {
-        Meal created = getUpdatedInvalid();
+        Meal updated = getUpdatedInvalid();
         mockMvc.perform(put(REST_URL + MEAL1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(created))
-                .with(userHttpBasic(ADMIN)))
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void testUpdateInvalidWithSameDate() throws Exception {
+        Meal updated = getUpdated();
+        Integer id = MEAL2.getId();
+        updated.setId(id);
+        mockMvc.perform(put(REST_URL + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(USER)))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -111,6 +124,17 @@ class MealRestControllerTest extends AbstractControllerTest {
     @Test
     void testCreateInvalid() throws Exception {
         Meal created = getCreatedInvalid();
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void testCreateInvalidWithSameDate() throws Exception {
+        Meal created = getCreatedWithExistsDate();
         mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(created))
